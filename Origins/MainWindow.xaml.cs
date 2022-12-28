@@ -1,20 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Media;
-using System.Numerics;
-using System.Text;
+using System.IO;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Sanford.Multimedia.Midi;
 
 namespace Origins
@@ -107,10 +95,17 @@ namespace Origins
 
         private void TogetherAudio_Click(object sender, RoutedEventArgs e)
         {
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var pathArray = currentDirectory.Split('\\');
+            string? workDirectory = null;
+            for (var i = 0; i < pathArray.Length - 3; i++)
+            {
+                workDirectory += pathArray[i] + '\\';
+            }
             MediaPlayer first = new MediaPlayer();
             MediaPlayer second = new MediaPlayer();
-            first.Open(new Uri(@"D:\Visual Studio\Projects\Origins\piano-G3.wav", UriKind.Relative));
-            second.Open(new Uri(@"D:\Visual Studio\Projects\Origins\piano-C4.wav", UriKind.Relative));
+            first.Open(new Uri(@$"{workDirectory}Resourses\piano-G3.wav", UriKind.Relative));
+            second.Open(new Uri(@$"{workDirectory}Resourses\piano-C4.wav", UriKind.Relative));
             first.Play();
             second.Play();
             Thread.Sleep(1250);
@@ -120,12 +115,20 @@ namespace Origins
 
         private void SeparatelyAudio_Click(object sender, RoutedEventArgs e)
         {
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var pathArray = currentDirectory.Split('\\');
+            string? workDirectory = null;
+            for (var i = 0; i < pathArray.Length - 3; i++)
+            {
+                workDirectory += pathArray[i] + '\\';
+            }
+            
             MediaPlayer single = new MediaPlayer();
-            single.Open(new Uri(@"D:\Visual Studio\Projects\Origins\piano-G3.wav", UriKind.Relative));
+            single.Open(new Uri(@$"{workDirectory}Resourses\piano-G3.wav", UriKind.Relative));
             single.Play();
             Thread.Sleep(1245);
 
-            single.Open(new Uri(@"D:\Visual Studio\Projects\Origins\piano-C4.wav", UriKind.Relative));
+            single.Open(new Uri(@$"{workDirectory}Resourses\piano-C4.wav", UriKind.Relative));
             single.Play();
             Thread.Sleep(1250);
             single.Stop();
